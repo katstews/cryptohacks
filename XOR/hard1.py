@@ -1,6 +1,7 @@
 from pwn import xor
 # msg ^ secret key = "crypto{" the first 7 characters
 # to get *partial secret key* = msg ^ "crypto{"
+#need to run on kali since m1 doesnt supp pwntools
 
 hexmsg = "0e0b213f26041e480b26217f27342e175d0e070a3c5b103e2526217f27342e175d0e077e263451150104"
 bytemsg = bytes.fromhex(hexmsg)
