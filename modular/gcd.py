@@ -2,6 +2,7 @@
 #a = b*quotient + remainder
 #gcd(a,b) = gcd(b,r)
 #use of Euclid algorithm 
+#fuc this was so difficult. for what reason.
 import math
 a = 66528
 b = 52920
