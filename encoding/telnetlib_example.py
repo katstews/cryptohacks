@@ -11,27 +11,30 @@ decryption_function = {
     'utf-8': lambda x: ''.join([chr(y) for y in x])
 }
 
+#only need to establish one connection, was reestablishing a 
+#connection with this included in the for loop
+
+HOST = "socket.cryptohack.org"
+PORT = 13377
+
+tn = telnetlib.Telnet(HOST, PORT)
+
+def readline():
+    return tn.read_until(b"\n")
+
+def json_recv():
+    line = readline()
+    return json.loads(line.decode())
+
+def json_send(hsh):
+    request = json.dumps(hsh).encode()
+    tn.write(request)
+
 for z in range(101):
-    HOST = "socket.cryptohack.org"
-    PORT = 13377
-
-    tn = telnetlib.Telnet(HOST, PORT)
-
-    def readline():
-        return tn.read_until(b"\n")
-
-    def json_recv():
-        line = readline()
-        return json.loads(line.decode())
-
-    def json_send(hsh):
-        request = json.dumps(hsh).encode()
-        tn.write(request)
-
     received = json_recv()
-    if (received["type"]) == "flag":
-        print(received)
-        
+    if "flag" in received:
+        print(f"FLAG: {received['flag']}")
+        break
     encoding = received["type"]
     cipher  = received["encoded"]
 
@@ -41,7 +44,9 @@ for z in range(101):
     to_send = {
         "decoded": x
     }
+
     print(to_send)
     json_send(to_send)
-    print(readline())
+    
+    
 
