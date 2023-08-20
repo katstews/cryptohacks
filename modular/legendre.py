@@ -8,6 +8,7 @@ for x in ints:
     if val == 1:
         print(x)
         residue = x 
+        
 # this condition satisfies p = 3 mod 4 
 val = pow(residue, (p+1)//4, p)
 print(val)
