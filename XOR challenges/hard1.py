@@ -28,13 +28,3 @@ for i,x in enumerate(newlist):
     
 print(flag)
 
-# for i,x in enumerate(hexmsg):
-#     keyval = key[i % len(key)]
-#     val = keyval ^ ord(x)
-    
-# newlist = xor(bytemsg[:7],b"crypto{")
-# newlist = newlist.decode("utf-8") + 'y'
-# print(newlist)
-
-# newmsg = xor(bytemsg,newlist.encode("utf-8"))
-# print(newmsg)
