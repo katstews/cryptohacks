@@ -1,21 +1,40 @@
-from pwn import xor
+from Cryptodome.Util.number import * 
+# from pwn import xor
 # msg ^ secret key = "crypto{" the first 7 characters
 # to get *partial secret key* = msg ^ "crypto{"
-#need to run on kali since m1 doesnt supp pwntools
+# need to run on kali since m1 doesnt supp pwntools
 
 hexmsg = "0e0b213f26041e480b26217f27342e175d0e070a3c5b103e2526217f27342e175d0e077e263451150104"
 bytemsg = bytes.fromhex(hexmsg)
 
+flag = b""
+
 newlist = []
 
-# for x in bytemsg:
-#     x = chr(x)
-#     newlist.append(x)
-# print("".join(newlist))
+contain = b"crypto{"
+val = bytemsg[:7]
 
-newlist = xor(bytemsg[:7],b"crypto{")
-newlist = newlist.decode("utf-8") + 'y'
-print(newlist)
+key = long_to_bytes(bytes_to_long(contain)^bytes_to_long(val))
+key = key + b'y'
 
-newmsg = xor(bytemsg,newlist.encode("utf-8"))
-print(newmsg)
+for x in range(0,len(hexmsg),2):
+    val = hexmsg[x:x+2]
+    newlist.append(bytes.fromhex(val))
+        
+for i,x in enumerate(newlist):
+    keyval = key[i % len(key)]
+    val1 = keyval ^ bytes_to_long(x)
+    flag += long_to_bytes(val1)
+    
+print(flag)
+
+# for i,x in enumerate(hexmsg):
+#     keyval = key[i % len(key)]
+#     val = keyval ^ ord(x)
+    
+# newlist = xor(bytemsg[:7],b"crypto{")
+# newlist = newlist.decode("utf-8") + 'y'
+# print(newlist)
+
+# newmsg = xor(bytemsg,newlist.encode("utf-8"))
+# print(newmsg)
